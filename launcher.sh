@@ -40,7 +40,7 @@ case "$(uname -s)" in
       binary_filename="gpt4all-lora-quantized-win64.exe"
     else
       os_type="Linux"
-      binary_filename="gpt4all-lora-quantized-linux-x86"
+      binary_filename="gpt4all-lora-quantized-OSX-m1"
     fi
     ;;
   CYGWIN*|MINGW32*|MSYS*|MINGW*)
@@ -81,7 +81,15 @@ get_valid_user_input() {
   done
 }
 
-get_valid_user_input
+if [[ ${#bin_files[@]} -eq 0 ]]; then
+  echo "No .bin files found."
+  exit 1  
+elif [[ ${#bin_files[@]} -eq 1 ]]; then
+  echo "Only one .bin file found. Using it."
+  user_selection=1
+else
+  get_valid_user_input
+fi
 selected_bin_file="${bin_files[$((user_selection-1))]}"
 
 # Run the selected .bin file with the appropriate command
